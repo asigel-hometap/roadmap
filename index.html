@@ -37,6 +37,32 @@
             height: 900px;
             border: 1px solid #e1e5e9;
             border-radius: 8px;
+            transition: height 0.3s ease;
+        }
+
+        .iframe-container iframe.expanded {
+            height: 1200px;
+        }
+
+        .toggle-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            transition: background-color 0.2s ease;
+        }
+
+        .toggle-button:hover {
+            background: #5a6fd8;
+        }
+
+        .toggle-button:active {
+            transform: translateY(1px);
         }
 
         .description {
@@ -72,17 +98,22 @@
             .iframe-container iframe {
                 height: 500px;
             }
+            
+            .iframe-container iframe.expanded {
+                height: 700px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="iframe-container">
-            <iframe src='https://hometap.atlassian.net/secure/PlanEmbeddedReport.jspa?r=JP8Jf' width='1024' height='640' style='border:1px solid #ccc;'></iframe>
+            <iframe id="roadmapIframe" src='https://hometap.atlassian.net/secure/PlanEmbeddedReport.jspa?r=JP8Jf' width='1024' height='640' style='border:1px solid #ccc;'></iframe>
+            <button class="toggle-button" onclick="toggleIframeHeight()">Expand Height</button>
         </div>
         
         <div class="description">
-            <h2>Project Roadmap</h2>
+            <h2>Product Roadmap</h2>
             <ul>
                 <li>As a rule, we try and limit work in progress to fewer than 6 projects at once per PM. More than that and we create execution risk and extended timelines.</li>
                 <li>Blue = DigiFi MVP; Green = Non-DigiFi; Purple = Licensed Products; Gray = Uncategorized</li>
@@ -92,5 +123,20 @@
             </ul>
         </div>
     </div>
+
+    <script>
+        function toggleIframeHeight() {
+            const iframe = document.getElementById('roadmapIframe');
+            const button = document.querySelector('.toggle-button');
+            
+            if (iframe.classList.contains('expanded')) {
+                iframe.classList.remove('expanded');
+                button.textContent = 'Expand Height';
+            } else {
+                iframe.classList.add('expanded');
+                button.textContent = 'Collapse Height';
+            }
+        }
+    </script>
 </body>
 </html>
