@@ -31,6 +31,41 @@
         }return n._iq[e]}
         ;e.amplitude=n})(window,document);
     </script>
+    <script>
+        // Alternative: Try the official Browser SDK
+        (function() {
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.async = true;
+            script.src = 'https://cdn.amplitude.com/libs/amplitude-8.21.0-min.gz.js';
+            script.onload = function() {
+                console.log('Amplitude Browser SDK loaded');
+                // Initialize with the Browser SDK
+                amplitude.init('61bc60145eaea47479748b1fbca70f8f', null, {
+                    saveEvents: true,
+                    includeUtm: true,
+                    includeReferrer: true,
+                    includeGclid: true,
+                    includeFbclid: true
+                });
+                
+                console.log('Amplitude Browser SDK initialized');
+                
+                // Track pageview
+                amplitude.logEvent('Page Viewed', {
+                    page_title: 'Product Roadmap',
+                    page_url: window.location.href,
+                    timestamp: new Date().toISOString()
+                });
+                
+                console.log('Page Viewed event sent via Browser SDK');
+            };
+            script.onerror = function() {
+                console.log('Failed to load Amplitude Browser SDK');
+            };
+            document.head.appendChild(script);
+        })();
+    </script>
     <style>
         * {
             margin: 0;
@@ -152,15 +187,6 @@
     </div>
 
     <script>
-        // Initialize Amplitude
-        amplitude.getInstance().init('61bc60145eaea47479748b1fbca70f8f');
-        
-        // Track pageview on load
-        amplitude.getInstance().logEvent('Page Viewed', {
-            page_title: 'Product Roadmap',
-            page_url: window.location.href
-        });
-        
         function toggleIframeHeight() {
             const iframe = document.getElementById('roadmapIframe');
             const button = document.querySelector('.toggle-button');
@@ -170,19 +196,23 @@
                 button.textContent = 'Expand Height';
                 
                 // Track collapse event
-                amplitude.getInstance().logEvent('Height Toggle Clicked', {
+                amplitude.logEvent('Height Toggle Clicked', {
                     action: 'collapse',
-                    new_height: '900px'
+                    new_height: '900px',
+                    timestamp: new Date().toISOString()
                 });
+                console.log('Collapse event sent');
             } else {
                 iframe.classList.add('expanded');
                 button.textContent = 'Collapse Height';
                 
                 // Track expand event
-                amplitude.getInstance().logEvent('Height Toggle Clicked', {
+                amplitude.logEvent('Height Toggle Clicked', {
                     action: 'expand',
-                    new_height: '1200px'
+                    new_height: '1200px',
+                    timestamp: new Date().toISOString()
                 });
+                console.log('Expand event sent');
             }
         }
     </script>
